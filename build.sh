@@ -4,33 +4,32 @@ set -e
 # 创建临时目录
 mkdir -p /tmp/alist && cd /tmp/alist
 
-# 使用 curl 替代 wget 下载 Alist
+# 下载并解压 Alist（使用 curl 和内置工具）
 VERSION=v3.45.0
 ARCH=linux-amd64
-curl -LO https://github.com/alist-org/alist/releases/download/$VERSION/alist-$ARCH.zip
-
-# 使用预装的 unzip 解压
-unzip alist-$ARCH.zip
+curl -sLO https://github.com/alist-org/alist/releases/download/$VERSION/alist-$ARCH.zip
+unzip -q alist-$ARCH.zip
 chmod +x alist
 
 # 创建配置目录
 mkdir -p /tmp/alist-data
 
-# 使用环境变量配置（优先）
+# 注入配置（如果有环境变量）
 if [ -n "$ALIST_CONFIG" ]; then
   echo "$ALIST_CONFIG" > /tmp/alist-data/config.json
 fi
 
-# 设置管理员账号密码（如果环境变量存在）
+# 设置管理员账号（如果有环境变量）
 if [ -n "$ALIST_USERNAME" ] && [ -n "$ALIST_PASSWORD" ]; then
-  ./alist admin "$ALIST_USERNAME" "$ALIST_PASSWORD" --data /tmp/alist-data
+  ./alist admin "$ALIST_USERNAME" "$ALIST_PASSWORD" --data /tmp/alist-data >/dev/null 2>&1
 fi
 
-# 启动 Alist 并生成静态首页
+# 创建静态占位文件（满足 Vercel 要求）
 mkdir -p public
-./alist server --port 3000 --data /tmp/alist-data &
-sleep 10  # 等待服务启动
-curl -o public/index.html http://localhost:3000
+echo "Alist is running..." > public/index.html
 
-# 保持主进程运行
-wait $!
+# 启动 Alist 服务（后台运行）
+./alist server --port $PORT --data /tmp/alist-data &
+
+# 保持主进程运行（使用 tail 替代 wait，减少资源占用）
+tail -f /dev/null
