@@ -4,8 +4,7 @@
       "src": "build.sh",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "public",
-        "maxLambdaSize": "10mb"
+        "distDir": "public"
       }
     }
   ],
@@ -14,10 +13,5 @@
       "src": "/(.*)",
       "dest": "http://localhost:${PORT}"
     }
-  ],
-  "build": {
-    "env": {
-      "NODE_OPTIONS": "--max-old-space-size=1024"
-    }
-  }
+  ]
 }
