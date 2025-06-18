@@ -24,6 +24,6 @@ fi
 mkdir -p public
 echo "Alist 正在运行..." > public/index.html
 
-# 启动 Alist 服务
+# 启动 Alist 服务（使用 --bind 参数）
 echo "Starting Alist v3.45.0..."
-exec ./alist server --port $PORT --data /tmp/alist-data
+exec ./alist server --bind :$PORT --data /tmp/alist-data
