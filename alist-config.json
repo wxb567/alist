@@ -5,6 +5,8 @@
     "type": "sqlite3",
     "db_file": "/tmp/alist.db"
   },
+  "admin_user": "admin",  // 管理员用户名
+  "admin_pass": "wxb123456",  // 管理员密码（明文）
   "storage": [
     {
       "mount_path": "/音乐",

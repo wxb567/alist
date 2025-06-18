@@ -3,5 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "build": "sh build.sh"
+  },
+  "dependencies": {
+    "unzip-stream": "^0.3.0"
   }
 }
