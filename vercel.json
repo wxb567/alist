@@ -1,14 +1,22 @@
 {
   "builds": [
     {
-      "src": "api/server.js",
-      "use": "@vercel/node"
+      "src": "api/alist.go",
+      "use": "@vercel/go"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/api/server"
+      "dest": "/api/alist"
     }
-  ]
+  ],
+  "env": {
+    "ALIST_VERSION": "v3.45.0"
+  },
+  "build": {
+    "env": {
+      "GO_BUILD_FLAGS": "-ldflags '-s -w'"
+    }
+  }
 }

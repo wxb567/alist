@@ -1,0 +1,11 @@
+{
+  "database": {
+    "type": "sqlite3",
+    "db_file": "data/data.db"
+  },
+  "scheme": {
+    "https": true
+  },
+  "address": "0.0.0.0",
+  "port": 3000
+}
