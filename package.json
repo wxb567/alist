@@ -1,0 +1,8 @@
+{
+  "name": "alist-vercel",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "./alist --config config.yaml"
+  },
+  "dependencies": {}
+}

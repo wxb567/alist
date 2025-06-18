@@ -1,30 +1,17 @@
 {
   "builds": [
     {
-      "src": "api/alist.go",
-      "use": "@vercel/go",
-      "config": {
-        "maxLambdaSize": "50mb",
-        "includeFiles": [
-          "alist",
-          "config.json",
-          "data/**"
-        ]
-      }
+      "src": "package.json",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/api/alist"
+      "dest": "/api/handler"
     }
   ],
-  "build": {
-    "env": {
-      "GO111MODULE": "off",
-      "CGO_ENABLED": "0",
-      "GOOS": "linux",
-      "GOARCH": "amd64"
-    }
+  "env": {
+    "PORT": "5244"
   }
 }
