@@ -1,17 +1,14 @@
 {
   "builds": [
     {
-      "src": "build.sh",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "public"
-      }
+      "src": "api/server.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "http://localhost:${PORT}"
+      "dest": "/api/server"
     }
   ]
 }
