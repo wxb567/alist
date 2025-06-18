@@ -1,12 +1,14 @@
 package handler
 
 import (
+	"io"
 	"log"
 	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"syscall"
+	"time"
 )
 
 var alistProcess *os.Process
@@ -45,15 +47,14 @@ func init() {
 		cmd.Wait()
 		log.Println("AList 进程已退出")
 	}()
+
+	// 等待AList启动完成
+	time.Sleep(2 * time.Second)
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 	// 创建反向代理到本地AList服务
-	proxy := &http.Client{}
-	alistURL := "http://localhost:3000" + r.URL.Path
-	
-	// 创建新请求
-	proxyReq, err := http.NewRequest(r.Method, alistURL, r.Body)
+	proxyReq, err := http.NewRequest(r.Method, "http://localhost:3000"+r.URL.String(), r.Body)
 	if err != nil {
 		http.Error(w, "创建代理请求失败", http.StatusInternalServerError)
 		return
@@ -67,7 +68,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	// 发送请求到AList
-	resp, err := proxy.Do(proxyReq)
+	client := &http.Client{}
+	resp, err := client.Do(proxyReq)
 	if err != nil {
 		http.Error(w, "连接AList失败: "+err.Error(), http.StatusBadGateway)
 		return
