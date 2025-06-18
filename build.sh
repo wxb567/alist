@@ -1,6 +1,12 @@
 #!/bin/bash
 set -e
 
+# 确保 alist 文件有执行权限
+chmod +x ./alist
+
+# 显示文件权限信息（用于调试）
+echo "alist 文件权限: $(ls -l ./alist)"
+
 # 创建配置目录
 mkdir -p /tmp/alist-data
 
@@ -17,9 +23,6 @@ fi
 # 创建静态占位文件（满足 Vercel 要求）
 mkdir -p public
 echo "Alist 正在运行..." > public/index.html
-
-# 确保二进制文件可执行
-chmod +x ./alist
 
 # 启动 Alist 服务
 echo "Starting Alist v3.45.0..."
